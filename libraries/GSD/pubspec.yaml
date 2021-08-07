@@ -1,0 +1,19 @@
+name: gsd_domain
+description: A starting point for Dart libraries or applications.
+version: 1.0.0
+publish_to: none
+
+# homepage: https://www.example.com
+
+environment:
+  sdk: '>=2.13.0 <3.0.0'
+
+dependencies:
+  lint: ^1.5.3
+  meta: ^1.3.0
+
+  updatable:
+    path: '../uptadable'
+  
+dev_dependencies:
+  test: ^1.16.0

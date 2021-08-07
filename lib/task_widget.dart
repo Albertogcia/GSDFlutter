@@ -75,11 +75,7 @@ class _TaskWidgetState extends ObserverState<Task, TaskWidget> {
     // crear un configurar una y mostrarla
     ScaffoldMessenger.of(_currentContext).showSnackBar(
       SnackBar(
-        action: SnackBarAction(
-            label: 'Undo',
-            onPressed: () {
-              print('Action Pressed');
-            }),
+        action: SnackBarAction(label: 'Undo', onPressed: _undoLastTaskDeletion),
         content: Text('Note deleted. Would you like to undo?'),
         duration: Duration(seconds: 6),
         padding: EdgeInsets.symmetric(horizontal: 12.0),
@@ -98,6 +94,10 @@ class _TaskWidgetState extends ObserverState<Task, TaskWidget> {
     final int oldLength = TaskRepository.shared.length;
     TaskRepository.shared.removeAt(widget.index);
     assert(TaskRepository.shared.length == oldLength - 1);
+  }
+
+  void _undoLastTaskDeletion() {
+    TaskRepository.shared.undoLastDelete();
   }
 }
 
