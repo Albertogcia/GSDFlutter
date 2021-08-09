@@ -77,6 +77,29 @@ class TaskRepository with Updatable implements Repository<Task> {
       });
     }
   }
+
+  void changeDoneTasksToNormalColor() {
+    for (final task in _tasks) {
+      if (task.state == TaskState.done) {
+        task.isGrey = false;
+      }
+    }
+    changeState(() {});
+  }
+
+  void changeDoneTasksToGreyColor() {
+    for (final task in _tasks) {
+      if (task.state == TaskState.done) {
+        task.isGrey = true;
+      }
+    }
+    changeState(() {});
+  }
+
+  void deleteDoneTasks() {
+    _tasks.removeWhere((task) => task.state == TaskState.done);
+    changeState(() {});
+  }
 }
 
 extension Testing on TaskRepository {

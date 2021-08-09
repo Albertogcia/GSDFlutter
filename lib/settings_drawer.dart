@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gsd_app/domain/settings.dart';
+import 'package:gsd_domain/gsd_domain.dart';
 import 'package:mow/mow.dart';
 
 class SettingsDrawer extends StatelessWidget {
@@ -34,6 +35,28 @@ class DoneOptions extends ModelWidget<Settings> {
   _DoneOptionsState createState() => _DoneOptionsState();
 }
 
+Future<bool?> _showConfirmDeleteDialog(BuildContext context) async {
+  return showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Delete done tasks'),
+          content:
+              const Text('Are you sure you want to delete completed tasks?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: const Text('Delete'),
+            ),
+          ],
+        );
+      });
+}
+
 class _DoneOptionsState extends ObserverState<Settings, DoneOptions> {
   @override
   Widget build(BuildContext context) {
@@ -42,8 +65,24 @@ class _DoneOptionsState extends ObserverState<Settings, DoneOptions> {
       padding: EdgeInsets.only(top: 16.0),
       child: Center(
         child: ToggleButtons(
-            onPressed: (int index) {
-              widget.model.selectedOption = index;
+            onPressed: (int index) async {
+              switch (index) {
+                case 0:
+                  widget.model.selectedOption = index;
+                  TaskRepository.shared.changeDoneTasksToNormalColor();
+                  break;
+                case 1:
+                  widget.model.selectedOption = index;
+                  TaskRepository.shared.changeDoneTasksToGreyColor();
+                  break;
+                case 2:
+                  if (await _showConfirmDeleteDialog(context) ?? false) {
+                    TaskRepository.shared.deleteDoneTasks();
+                    widget.model.selectedOption = index;
+                  }
+                  break;
+                default:
+              }
             },
             isSelected: [
               selectedOption == 0,
