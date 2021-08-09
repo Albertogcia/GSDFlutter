@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gsd_app/domain/settings.dart';
+import 'package:mow/mow.dart';
 
 class SettingsDrawer extends StatelessWidget {
   @override
@@ -9,21 +11,83 @@ class SettingsDrawer extends StatelessWidget {
         children: [
           SettingsHeader(),
           DoneHeader(),
-          DoneOptions(),
+          FutureBuilder<Settings>(
+            future: Settings.getInstance(defaultOption: 0),
+            builder: (BuildContext context, AsyncSnapshot<Settings> snap) {
+              if (snap.hasData) {
+                return DoneOptions(model: snap.data!);
+              } else {
+                return DoneEmptyOptions();
+              }
+            },
+          )
         ],
       ),
     );
   }
 }
 
-class DoneOptions extends StatelessWidget {
+class DoneOptions extends ModelWidget<Settings> {
+  DoneOptions({required Settings model, Key? key})
+      : super(model: model, key: key);
+  @override
+  _DoneOptionsState createState() => _DoneOptionsState();
+}
+
+class _DoneOptionsState extends ObserverState<Settings, DoneOptions> {
   @override
   Widget build(BuildContext context) {
-    // TODO Usar ToggleOptions
-    return Column(
-      children: [Text('Nothing'), Text('Grey out'), Text('Delete')]
-          .map((e) => ElevatedButton(onPressed: null, child: e))
-          .toList(),
+    final int selectedOption = widget.model.selectedOption;
+    return Padding(
+      padding: EdgeInsets.only(top: 16.0),
+      child: Center(
+        child: ToggleButtons(
+            onPressed: (int index) {
+              widget.model.selectedOption = index;
+            },
+            isSelected: [
+              selectedOption == 0,
+              selectedOption == 1,
+              selectedOption == 2
+            ],
+            children: const [
+              Padding(
+                  padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                  child: Text('Nothing')),
+              Padding(
+                  padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                  child: Text('Grey out')),
+              Padding(
+                  padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                  child: Text('Delete'))
+            ]),
+      ),
+    );
+  }
+}
+
+class DoneEmptyOptions extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(top: 16.0),
+      child: Center(
+        child: ToggleButtons(onPressed: (int index) {}, isSelected: const [
+          false,
+          false,
+          false
+        ], children: const [
+          Padding(
+              padding: EdgeInsets.only(left: 10.0, right: 10.0),
+              child: Text('Nothing')),
+          Padding(
+              padding: EdgeInsets.only(left: 10.0, right: 10.0),
+              child: Text('Grey out')),
+          Padding(
+              padding: EdgeInsets.only(left: 10.0, right: 10.0),
+              child: Text('Delete'))
+        ]),
+      ),
     );
   }
 }
