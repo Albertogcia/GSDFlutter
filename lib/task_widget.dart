@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gsd_app/domain/settings.dart';
+import 'package:gsd_app/task_details.dart';
 import 'package:gsd_domain/gsd_domain.dart';
 import 'package:mow/mow.dart';
 
@@ -87,6 +88,13 @@ class _TaskWidgetState extends ObserverState<Task, TaskWidget> {
               onChanged: _onCheckboxTap,
             ),
             title: Text(widget.model.description),
+            onTap: () {
+              Navigator.of(context).push<void>(
+                MaterialPageRoute<void>(
+                  builder: (context) => TaskDetails(task: widget.model),
+                ),
+              );
+            },
           ),
         ),
       ),
