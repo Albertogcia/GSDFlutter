@@ -14,9 +14,11 @@ void main() {
 void addTestDataToRepo() {
   for (int i = 0; i < 120; i++) {
     if (i.isEven) {
-      TaskRepository.shared.toDo('Somehting I should do $i');
+      TaskRepository.shared
+          .toDo('Somehting I should do $i', 'Content for task $i');
     } else {
-      TaskRepository.shared.done('Some finished task $i');
+      TaskRepository.shared
+          .done('Some finished task $i', 'Content for task $i');
     }
   }
 }
@@ -28,7 +30,8 @@ class GSDApp extends StatelessWidget {
       title: 'GSD',
       home: Scaffold(
         floatingActionButton: FloatingActionButton(
-          onPressed: () => TaskRepository.shared.toDo('Una nueva tarea'),
+          onPressed: () => TaskRepository.shared
+              .toDo('Una nueva tarea', 'Content for the new task'),
           child: Icon(Icons.add),
         ),
         drawer: SettingsDrawer(),

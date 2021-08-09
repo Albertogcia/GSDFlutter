@@ -15,14 +15,14 @@ class TaskRepository with Updatable implements Repository<Task> {
   }
 
   // Métodos para devolver Tasks semi-configuradas
-  Task done(String desc) {
-    final task = Task.done(description: desc);
+  Task done(String desc, String content) {
+    final task = Task.done(description: desc, content: content);
     add(task);
     return task;
   }
 
-  Task toDo(String desc) {
-    final task = Task.toDo(description: desc);
+  Task toDo(String desc, String content) {
+    final task = Task.toDo(description: desc, content: content);
     add(task);
     return task;
   }

@@ -5,7 +5,13 @@ class ImmutableTask {
 
   String get description => _description;
 
-  ImmutableTask({required String description}) : _description = description;
+  late final String _content;
+
+  String get content => _content;
+
+  ImmutableTask({required String description, required String content})
+      : _description = description,
+        _content = content;
 
   @override
   String toString() {
@@ -39,17 +45,20 @@ class Task extends ImmutableTask with Updatable {
   bool isGrey = false;
 
   // Cosntructors
-  Task({required String description, required TaskState state})
+  Task(
+      {required String description,
+      required String content,
+      required TaskState state})
       : _state = state,
-        super(description: description);
+        super(description: description, content: content);
 
-  Task.done({required String description})
+  Task.done({required String description, required String content})
       : _state = TaskState.done,
-        super(description: description);
+        super(description: description, content: content);
 
-  Task.toDo({required String description})
+  Task.toDo({required String description, required String content})
       : _state = TaskState.toDo,
-        super(description: description);
+        super(description: description, content: content);
 
   @override
   String toString() {

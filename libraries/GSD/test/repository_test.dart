@@ -10,8 +10,11 @@ void main() {
 
   setUp(() {
     repo = TaskRepository.shared;
-    sampleTask1 = Task(description: 'Create Package', state: TaskState.toDo);
-    sampleTask2 = Task.done(description: 'Run tests');
+    sampleTask1 = Task(
+        description: 'Create Package',
+        content: 'Content',
+        state: TaskState.toDo);
+    sampleTask2 = Task.done(description: 'Run tests', content: 'Content');
   });
 
   tearDown(() {
@@ -42,7 +45,8 @@ void main() {
       expect(() => repo.insert(10, sampleTask2), throwsRangeError);
       expect(() => repo.insert(0, sampleTask1), returnsNormally);
 
-      final newTask = Task.done(description: 'test the insertion');
+      final newTask =
+          Task.done(description: 'test the insertion', content: 'Content');
       repo.insert(1, newTask);
       expect(repo[1], newTask);
       expect(repo.length, 2);
