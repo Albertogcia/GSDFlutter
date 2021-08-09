@@ -36,6 +36,8 @@ class Task extends ImmutableTask with Updatable {
     }
   }
 
+  bool isGrey = false;
+
   // Cosntructors
   Task({required String description, required TaskState state})
       : _state = state,

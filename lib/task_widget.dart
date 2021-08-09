@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gsd_app/domain/settings.dart';
 import 'package:gsd_domain/gsd_domain.dart';
 import 'package:mow/mow.dart';
 
@@ -42,7 +43,28 @@ class _TaskWidgetState extends ObserverState<Task, TaskWidget> {
   // Lifecycle
   void _onCheckboxTap(bool? value) {
     final bool newValue = value ?? false;
-    widget.model.state = newValue ? TaskState.done : TaskState.toDo;
+    Settings.getInstance(defaultOption: 0).then((Settings settings) =>
+        _handleCheckTap(newValue, settings.selectedOption));
+  }
+
+  void _handleCheckTap(bool value, int selectedOption) {
+    switch (selectedOption) {
+      case 0:
+        widget.model.state = value ? TaskState.done : TaskState.toDo;
+        break;
+      case 1:
+        widget.model.isGrey = value;
+        widget.model.state = value ? TaskState.done : TaskState.toDo;
+        break;
+      case 2:
+        if (value) {
+          TaskRepository.shared.removeAt(widget.index);
+        } else {
+          widget.model.state = value ? TaskState.done : TaskState.toDo;
+        }
+        break;
+      default:
+    }
   }
 
   @override
@@ -57,12 +79,15 @@ class _TaskWidgetState extends ObserverState<Task, TaskWidget> {
       onDismissed: _deleteTask,
       key: UniqueKey(),
       child: Card(
-        child: ListTile(
-          leading: Checkbox(
-            value: widget.model.state == TaskState.done,
-            onChanged: _onCheckboxTap,
+        child: Opacity(
+          opacity: widget.model.isGrey ? 0.2 : 1.0,
+          child: ListTile(
+            leading: Checkbox(
+              value: widget.model.state == TaskState.done,
+              onChanged: _onCheckboxTap,
+            ),
+            title: Text(widget.model.description),
           ),
-          title: Text(widget.model.description),
         ),
       ),
     );
