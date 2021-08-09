@@ -50,6 +50,7 @@ class _DoneOptionsState extends ObserverState<Settings, DoneOptions> {
               selectedOption == 1,
               selectedOption == 2
             ],
+            direction: Axis.vertical,
             children: const [
               Padding(
                   padding: EdgeInsets.only(left: 10.0, right: 10.0),
@@ -72,21 +73,21 @@ class DoneEmptyOptions extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(top: 16.0),
       child: Center(
-        child: ToggleButtons(onPressed: (int index) {}, isSelected: const [
-          false,
-          false,
-          false
-        ], children: const [
-          Padding(
-              padding: EdgeInsets.only(left: 10.0, right: 10.0),
-              child: Text('Nothing')),
-          Padding(
-              padding: EdgeInsets.only(left: 10.0, right: 10.0),
-              child: Text('Grey out')),
-          Padding(
-              padding: EdgeInsets.only(left: 10.0, right: 10.0),
-              child: Text('Delete'))
-        ]),
+        child: ToggleButtons(
+            onPressed: (int index) {},
+            isSelected: const [false, false, false],
+            direction: Axis.vertical,
+            children: const [
+              Padding(
+                  padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                  child: Text('Nothing')),
+              Padding(
+                  padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                  child: Text('Grey out')),
+              Padding(
+                  padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                  child: Text('Delete'))
+            ]),
       ),
     );
   }
