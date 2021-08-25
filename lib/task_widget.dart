@@ -91,7 +91,8 @@ class _TaskWidgetState extends ObserverState<Task, TaskWidget> {
             onTap: () {
               Navigator.of(context).push<void>(
                 MaterialPageRoute<void>(
-                  builder: (context) => TaskDetails(task: widget.model),
+                  builder: (context) =>
+                      TaskDetails(task: widget.model, index: widget.index),
                 ),
               );
             },

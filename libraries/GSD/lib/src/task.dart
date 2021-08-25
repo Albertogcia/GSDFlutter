@@ -1,13 +1,19 @@
 import 'package:updatable/updatable.dart';
 
 class ImmutableTask {
-  late final String _description;
+  late String _description;
 
   String get description => _description;
+  set description(String newValue) {
+    _description = newValue;
+  }
 
-  late final String _content;
+  late String _content;
 
   String get content => _content;
+  set content(String newValue) {
+    _content = newValue;
+  }
 
   ImmutableTask({required String description, required String content})
       : _description = description,

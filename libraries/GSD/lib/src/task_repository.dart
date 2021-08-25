@@ -100,6 +100,14 @@ class TaskRepository with Updatable implements Repository<Task> {
     _tasks.removeWhere((task) => task.state == TaskState.done);
     changeState(() {});
   }
+
+  void updateTaskData(int index, String description, String content) {
+    changeState(() {
+      final task = _tasks[index];
+      task.description = description;
+      task.content = content;
+    });
+  }
 }
 
 extension Testing on TaskRepository {
